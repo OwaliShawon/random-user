@@ -8,9 +8,28 @@ import FilterBy from './components/FilterBy/FilterBy';
 import TileViewButton from './components/TileViewButton/TileViewButton';
 import UsersTable from './components/UsersTable/UsersTable';
 import UsersTile from './components/UsersTile/UsersTile';
+import PaginationClient from './components/PaginationClient/PaginationClient';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useEffectOnce } from './util/useEffectOnce';
 
 function App() {
-    
+  const [users, setUsers] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  // if (users.length !== 0) {
+  //   setPageSize(users.length / 10);
+  // }
+  // console.log(pageNumber);
+
+  // call data from API
+  useEffectOnce(async () => {
+    await fetch('https://randomuser.me/api/?results=50')
+      .then((response) => response.json())
+      .then((json) => setUsers(json.results));
+  });
+
   return (
     <>
       <Container>
@@ -28,13 +47,16 @@ function App() {
         </Row>
         <Row>
           <Col>
-            <UsersTable></UsersTable>
+            <UsersTable users={users}></UsersTable>
           </Col>
         </Row>
-        <Row>
+        {/* <Row>
           <Col>
             <UsersTile></UsersTile>
           </Col>
+        </Row> */}
+        <Row>
+          <PaginationClient></PaginationClient>
         </Row>
       </Container>
     </>
