@@ -15,13 +15,7 @@ import { useEffectOnce } from './util/useEffectOnce';
 
 function App() {
   const [users, setUsers] = useState([]);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-
-  // if (users.length !== 0) {
-  //   setPageSize(users.length / 10);
-  // }
-  // console.log(pageNumber);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // call data from API
   useEffectOnce(async () => {
@@ -56,7 +50,11 @@ function App() {
           </Col>
         </Row> */}
         <Row>
-          <PaginationClient></PaginationClient>
+          <PaginationClient
+            users={users}
+            currentPage={currentPage}
+            handlePageChange={(page) => setCurrentPage(page)}>
+          </PaginationClient>
         </Row>
       </Container>
     </>

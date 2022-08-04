@@ -1,24 +1,37 @@
 import Pagination from 'react-bootstrap/Pagination';
-import PageItem from 'react-bootstrap/PageItem'
-import { useState } from 'react';
+import PageItem from 'react-bootstrap/PageItem';
 
-function PaginationClient() {
-    const [pageNumber, setPageNumber] = useState(1)
+function PaginationClient({ users, currentPage = 1, handlePageChange }) {
+    let pages = [];
+    for (let page = 1; page <= Math.ceil(users.length / 10); page++) {
+        pages.push(
+            <PageItem onClick={() => handlePageChange(page)} key={page} active={page === currentPage}>
+                {page}
+            </PageItem>,
+        );
+    }
+
+    if (pages.length === 0) return null;
+
     return (
-        <Pagination>
-            <Pagination.First />
-            <Pagination.Prev />
-            <PageItem>{11}</PageItem>
-            <Pagination.Item active>{1}</Pagination.Item>
-            <Pagination.Item>{10}</Pagination.Item>
-            <Pagination.Item>{11}</Pagination.Item>
-            {/* <Pagination.Item>{13}</Pagination.Item>
-            <Pagination.Item disabled>{14}</Pagination.Item>
-
-            <Pagination.Ellipsis />
-            <Pagination.Item>{20}</Pagination.Item> */}
-            <Pagination.Next />
-            <Pagination.Last />
+        <Pagination className='d-flex justify-content-end'>
+            <Pagination.First
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+            />
+            <Pagination.Prev
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+            />
+            {pages}
+            <Pagination.Next
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === pages.length}
+            />
+            <Pagination.Last
+                onClick={() => handlePageChange(pages.length)}
+                disabled={currentPage === pages.length}
+            />
         </Pagination>
     );
 }
