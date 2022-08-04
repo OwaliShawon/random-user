@@ -1,9 +1,9 @@
 import Pagination from 'react-bootstrap/Pagination';
 import PageItem from 'react-bootstrap/PageItem';
 
-function PaginationClient({ users, currentPage = 1, handlePageChange }) {
+function PaginationClient({ users,userPerPage, currentPage = 1, handlePageChange }) {
     let pages = [];
-    for (let page = 1; page <= Math.ceil(users.length / 10); page++) {
+    for (let page = 1; page <= Math.ceil(users.length / userPerPage); page++) {
         pages.push(
             <PageItem onClick={() => handlePageChange(page)} key={page} active={page === currentPage}>
                 {page}

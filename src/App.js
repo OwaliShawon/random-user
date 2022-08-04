@@ -16,6 +16,10 @@ import { useEffectOnce } from './util/useEffectOnce';
 function App() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [gender, setGender] = useState('all');
+
+  let userPerPage = 10;
+  let filterUsers = [];
 
   // call data from API
   useEffectOnce(async () => {
@@ -23,6 +27,22 @@ function App() {
       .then((response) => response.json())
       .then((json) => setUsers(json.results));
   });
+
+
+  // filtered by gender
+  if (gender === "all") {
+    filterUsers = users;
+  } else if (gender === "male") {
+    filterUsers = users.filter((user) => user.gender === "male");
+  }else if (gender === "female") {
+    filterUsers = users.filter((user) => user.gender === "female");
+  }
+
+  // show users per page
+  const start = (currentPage - 1) * userPerPage;
+  const end = currentPage * userPerPage;
+  const currentPageUsers = filterUsers.slice(start, end);
+
 
   return (
     <>
@@ -33,7 +53,7 @@ function App() {
             <SearchBar></SearchBar>
           </Col>
           <Col>
-            <FilterBy></FilterBy>
+            <FilterBy handleFilterByGender={(gender) => setGender(gender)}></FilterBy>
           </Col>
           <Col xs={{ order: 'last' }} md={2} className='d-flex justify-content-end'>
             <TileViewButton></TileViewButton>
@@ -41,7 +61,7 @@ function App() {
         </Row>
         <Row>
           <Col>
-            <UsersTable users={users}></UsersTable>
+            <UsersTable users={currentPageUsers}></UsersTable>
           </Col>
         </Row>
         {/* <Row>
@@ -51,7 +71,8 @@ function App() {
         </Row> */}
         <Row>
           <PaginationClient
-            users={users}
+            users={filterUsers}
+            userPerPage={userPerPage}
             currentPage={currentPage}
             handlePageChange={(page) => setCurrentPage(page)}>
           </PaginationClient>
