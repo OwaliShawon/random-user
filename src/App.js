@@ -17,6 +17,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [gender, setGender] = useState('all');
+  const [search, setSearch] = useState("");
 
   let userPerPage = 10;
   let filterUsers = [];
@@ -34,8 +35,18 @@ function App() {
     filterUsers = users;
   } else if (gender === "male") {
     filterUsers = users.filter((user) => user.gender === "male");
-  }else if (gender === "female") {
+  } else if (gender === "female") {
     filterUsers = users.filter((user) => user.gender === "female");
+  }
+
+  // search result
+  if (search) {
+    filterUsers = filterUsers.filter((user) =>
+      user.name.first.toLowerCase().includes(search.toLowerCase()) ||
+      user.name.last.toLowerCase().includes(search.toLowerCase()) ||
+      user.email.toLowerCase().includes(search.toLowerCase()) ||
+      user.login.username.toLowerCase().includes(search.toLowerCase())
+    );
   }
 
   // show users per page
@@ -50,7 +61,10 @@ function App() {
         <h1 style={{ margin: "20px 0px 20px 0px" }}>User List</h1>
         <Row>
           <Col>
-            <SearchBar></SearchBar>
+            <SearchBar onSearch={(value) => {
+              setSearch(value);
+              setCurrentPage(1);
+            }}></SearchBar>
           </Col>
           <Col>
             <FilterBy handleFilterByGender={(gender) => setGender(gender)}></FilterBy>
