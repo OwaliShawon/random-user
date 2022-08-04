@@ -10,7 +10,6 @@ import UsersTable from './components/UsersTable/UsersTable';
 import UsersTile from './components/UsersTile/UsersTile';
 import PaginationClient from './components/PaginationClient/PaginationClient';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useEffectOnce } from './util/useEffectOnce';
 
 function App() {
@@ -18,6 +17,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [gender, setGender] = useState('all');
   const [search, setSearch] = useState("");
+  const [tileView, setTileView] = useState(false);
 
   let userPerPage = 10;
   let filterUsers = [];
@@ -70,19 +70,24 @@ function App() {
             <FilterBy handleFilterByGender={(gender) => setGender(gender)}></FilterBy>
           </Col>
           <Col xs={{ order: 'last' }} md={2} className='d-flex justify-content-end'>
-            <TileViewButton></TileViewButton>
+            <TileViewButton
+              handleTileView={() => setTileView(!tileView)}>
+            </TileViewButton>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <UsersTable users={currentPageUsers}></UsersTable>
-          </Col>
-        </Row>
-        {/* <Row>
-          <Col>
-            <UsersTile></UsersTile>
-          </Col>
-        </Row> */}
+        {tileView ?
+          <Row>
+            <Col>
+              <UsersTile></UsersTile>
+            </Col>
+          </Row>
+          :
+          <Row>
+            <Col>
+              <UsersTable users={currentPageUsers}></UsersTable>
+            </Col>
+          </Row>
+        }
         <Row>
           <PaginationClient
             users={filterUsers}
