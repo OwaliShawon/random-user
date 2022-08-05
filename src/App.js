@@ -9,7 +9,7 @@ import TileViewButton from './components/TileViewButton/TileViewButton';
 import UsersTable from './components/UsersTable/UsersTable';
 import UsersTile from './components/UsersTile/UsersTile';
 import PaginationClient from './components/PaginationClient/PaginationClient';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useEffectOnce } from './util/useEffectOnce';
 
 function App() {
@@ -78,7 +78,7 @@ function App() {
         {tileView ?
           <Row>
             <Col>
-              <UsersTile></UsersTile>
+              <UsersTile users={currentPageUsers}></UsersTile>
             </Col>
           </Row>
           :
