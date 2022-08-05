@@ -1,6 +1,8 @@
 import Image from 'react-bootstrap/Image'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarDays, faUser } from '@fortawesome/free-solid-svg-icons';
 
 function UsersTileItem({ user }) {
     const { name, email, registered, picture, login } = user;
@@ -18,8 +20,8 @@ function UsersTileItem({ user }) {
                     <Col>
                         <h6>{name.last}, {name.first}</h6>
                         <p>{email}</p>
-                        <p>icon {registered.date}</p>
-                        <p>icon {login.username}</p>
+                        <p><FontAwesomeIcon icon={faUser} />  {login.username}</p>
+                        <p> <FontAwesomeIcon icon={faCalendarDays} /> {registered.date}</p>
                     </Col>
                 </Row>
             </Col>

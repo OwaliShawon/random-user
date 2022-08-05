@@ -2,10 +2,8 @@ import './TileViewButton.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { useState } from 'react';
 
 function TileViewButton({ handleTileView }) {
-    const [tileView, setTileView] = useState(false);
     return (
         <>
             <Row>
